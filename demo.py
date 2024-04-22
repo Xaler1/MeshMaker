@@ -52,7 +52,7 @@ if state.image is not None:
     mesh_btn = st.button("Generate Mesh")
     if mesh_btn:
         progress = st.progress(0, text="Generating Mesh")
-        path = state.maker.make("examples", progress)
+        path = state.maker.make("examples/image.png", progress)
         st.download_button("Download Mesh", path)
 
 
