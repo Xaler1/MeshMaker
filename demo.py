@@ -2,10 +2,27 @@ import requests
 from keys import openai_key
 import streamlit as st
 from openai import OpenAI
-from mesh_maker import MeshMaker
+
+with st.spinner("Loading..."):
+    from mesh_maker import MeshMaker
 
 client = OpenAI(api_key=openai_key)
 state = st.session_state
+
+
+if "human" not in state:
+    state.human = False
+
+if not state.human:
+    st.write("Please click the button below to verify that you are human.")
+    start_btn = st.button("Human Check")
+    if start_btn:
+        st.write("Hello Human!")
+        state.human = True
+        st.experimental_rerun()
+    else:
+        st.stop()
+
 
 st.title("Model Generator")
 

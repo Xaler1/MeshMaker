@@ -136,7 +136,7 @@ class MeshMaker:
 
         outputs = []
         for idx, image_file in enumerate(input_files):
-            progress_bar.progress(1.0 * (idx + 1) / len(input_files), f"Processing images")
+            progress_bar.progress(10, f"Loading image")
 
             name = os.path.basename(image_file).split('.')[0]
             print(f'[{idx + 1}/{len(input_files)}] Imagining {name} ...')
@@ -145,6 +145,8 @@ class MeshMaker:
             input_image = Image.open(image_file)
             input_image = remove_background(input_image, rembg_session)
             input_image = resize_foreground(input_image, 0.85)
+
+            progress_bar.progress(20, f"Processing image")
 
             # sampling
             output_image = self.pipeline(
@@ -171,7 +173,7 @@ class MeshMaker:
         chunk_size = 20 if self.IS_FLEXICUBES else 1
 
         for idx, sample in enumerate(outputs):
-            progress_bar.progress(1.0 * (idx + 1) / len(outputs), f"Reconstructing meshes")
+            progress_bar.progress(50, f"Reconstructing meshes")
 
             name = sample['name']
             print(f'[{idx + 1}/{len(outputs)}] Creating {name} ...')
@@ -198,4 +200,7 @@ class MeshMaker:
                 )
                 vertices, faces, vertex_colors = mesh_out
                 save_obj(vertices, faces, vertex_colors, mesh_path_idx)
+
+                progress_bar.progress(100, f"Meshes generated")
+
                 return mesh_path_idx
