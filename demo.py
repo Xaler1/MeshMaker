@@ -74,7 +74,10 @@ if state.image is not None:
         path = state.maker.make("examples/image.png", progress)
         with open(path, "rb") as f:
             state.mesh = f.read()
+        progress.empty()
+
 if state.mesh is not None:
+    st.progress(100, text="Mesh Generated!")
     st.download_button("Download Mesh", state.mesh, file_name="mesh.obj", mime="text/plain")
 
 
