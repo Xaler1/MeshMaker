@@ -173,7 +173,7 @@ class MeshMaker:
         chunk_size = 20 if self.IS_FLEXICUBES else 1
 
         for idx, sample in enumerate(outputs):
-            progress_bar.progress(50, f"Reconstructing meshes")
+            progress_bar.progress(50, f"Reconstructing meshe")
 
             name = sample['name']
             print(f'[{idx + 1}/{len(outputs)}] Creating {name} ...')

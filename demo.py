@@ -19,7 +19,7 @@ if not state.human:
     if start_btn:
         st.write("Hello Human!")
         state.human = True
-        st.experimental_rerun()
+        st.rerun()
     else:
         st.stop()
 
@@ -28,6 +28,8 @@ st.title("Model Generator")
 
 if "image" not in state:
     state.image = None
+if "mesh" not in state:
+    state.mesh = None
 if "maker" not in state:
     with st.spinner("Loading Models..."):
         state.maker = MeshMaker()
@@ -62,15 +64,18 @@ if img_btw:
         # write to file
         with open("examples/image.png", "wb") as f:
             f.write(image)
-        st.experimental_rerun()
+        st.rerun()
 
 if state.image is not None:
     st.image(state.image, caption="Generated Image", use_column_width=True)
     mesh_btn = st.button("Generate Mesh")
     if mesh_btn:
-        progress = st.progress(0, text="Generating Mesh")
+        progress = st.progress(0, text="Starting")
         path = state.maker.make("examples/image.png", progress)
-        st.download_button("Download Mesh", path)
+        with open(path, "rb") as f:
+            state.mesh = f.read()
+if state.mesh is not None:
+    st.download_button("Download Mesh", state.mesh, file_name="mesh.obj", mime="text/plain")
 
 
 
